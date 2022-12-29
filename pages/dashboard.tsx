@@ -20,9 +20,8 @@ export default function Dashboard() {
 
 export const getServerSideProps = withSSRAuth(async (ctx: any) => {
  const apiClient = setupAPIClient(ctx);
- const response = await apiClient.get('/me');
+ const reponse = await apiClient.get('/me')
 
- console.log(response.data)
 
  return {
   props: {
