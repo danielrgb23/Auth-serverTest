@@ -8,18 +8,23 @@ import { api } from "../services/apiClient";
 import { withSSRAuth } from "../utils/withSSRAuth";
 
 export default function Dashboard() {
-  const { user, signOut } = useContext(AuthContext)
+  const { user, signOut, broadcastAuth  } = useContext(AuthContext)
 
   useEffect(() => {
     api.get('/me').then(response => console.log(response))
       .catch(err => console.log(err))
   }, []);
 
+  function handleSignOut() {
+    broadcastAuth.current.postMessage("signOut");
+    signOut();
+  }
+
   return (
     <>
       <h1>Dashboard: {user?.email}</h1>
 
-      <button onClick={signOut}>Sign out</button>
+      <button onClick={handleSignOut}>Sign out</button>
 
       <Can permissions={['metrics.list']}>
         <div>Métricas</div>
